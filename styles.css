@@ -9,6 +9,28 @@
            22 Reveals · 23 Keyframes · 24 Movimiento reducido
    ===================================================================== */
 
+/* ---------- 0. Tipografía de la marca: Nexa ----------
+   Principal (titulares y cifras grandes): Nexa Heavy · Secundaria (subtítulos, botones, etiquetas): Nexa Bold
+   · Terciaria (texto corrido): Nexa Light. Archivos esperados en assets/fonts/ (.woff2 u .otf):
+   Nexa-Heavy, Nexa-Bold y Nexa-Light. Mientras no estén, cada pila (--ff-*) cae a su fuente de respaldo. */
+@font-face {
+  font-family: "Nexa"; font-weight: 300; font-style: normal; font-display: swap;
+  src: url("assets/fonts/Nexa-Light.woff2") format("woff2"), url("assets/fonts/Nexa-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: "Nexa"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("assets/fonts/Nexa-Bold.woff2") format("woff2"), url("assets/fonts/Nexa-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "Nexa"; font-weight: 800; font-style: normal; font-display: swap;
+  src: url("assets/fonts/Nexa-Heavy.woff2") format("woff2"), url("assets/fonts/Nexa-Heavy.otf") format("opentype");
+}
+/* Etiquetas pequeñas (--ff-m): siempre Nexa Bold, sin importar el peso que pida cada regla */
+@font-face {
+  font-family: "Nexa Bold"; font-weight: 100 900; font-style: normal; font-display: swap;
+  src: url("assets/fonts/Nexa-Bold.woff2") format("woff2"), url("assets/fonts/Nexa-Bold.otf") format("opentype");
+}
+
 /* ---------- 1. Tokens ---------- */
 :root {
   --red: #D8261C;
@@ -25,9 +47,9 @@
   --muted: #5B626B;
   --line: rgba(18, 20, 23, .12);
 
-  --ff-d: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  --ff-b: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --ff-m: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ff-d: "Nexa", "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --ff-b: "Nexa", "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ff-m: "Nexa Bold", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --ease: cubic-bezier(.22, 1, .36, 1);
   --ease-io: cubic-bezier(.76, 0, .24, 1);
@@ -86,7 +108,7 @@ section { position: relative; }
 @media (min-width: 700px) { .hide-lg { display: none; } .show-lg { display: inline; } }
 
 h2 {
-  font-family: var(--ff-d); font-weight: 700; font-size: clamp(2.1rem, 7.6vw, 4.4rem);
+  font-family: var(--ff-d); font-weight: 800; font-size: clamp(2.1rem, 7.6vw, 4.4rem);
   line-height: .98; letter-spacing: -.035em; margin-bottom: 1.2rem; text-wrap: balance;
 }
 .kicker {
@@ -527,6 +549,41 @@ html:not(.js) .burger, html:not(.js) .nav { display: none; }
   .scene--photo { width: min(100%, 480px); justify-self: center; }
 }
 
+/* ---------- 10b. Trabajos realizados: galería de taller ----------
+   Fotos reales, a su proporción natural, como impresos pegados en la pared del taller:
+   marco blanco, giro leve y cinta de enmascarar. Cercano y humano, sin verse descuidado. */
+.works { padding-block: clamp(4.5rem, 12vw, 9rem); background: var(--paper-2); }
+.works__intro { margin-bottom: 2.6rem; }
+.works__intro h2 { max-width: 13em; }
+.works__wall { columns: 2; column-gap: 1rem; }
+.work {
+  --r: 0deg; position: relative; display: block; margin: 0 0 1.15rem; padding: .4rem .4rem 0; break-inside: avoid;
+  background: #fff; border-radius: 3px; rotate: var(--r);
+  box-shadow: 0 1px 2px rgba(18, 20, 23, .14), 0 16px 28px -16px rgba(18, 20, 23, .55);
+  transition: rotate .7s var(--ease), scale .7s var(--ease), box-shadow .7s var(--ease);
+}
+.work:nth-child(5n+1) { --r: -1.3deg; }
+.work:nth-child(5n+2) { --r: .9deg; }
+.work:nth-child(5n+3) { --r: -.5deg; }
+.work:nth-child(5n+4) { --r: 1.4deg; }
+.work:nth-child(5n+5) { --r: -.9deg; }
+.work img { width: 100%; height: auto; border-radius: 1px; background: var(--paper-2); }
+.work figcaption { padding: .55rem .2rem .65rem; font: 600 .62rem/1.25 var(--ff-m); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.work::before {
+  content: ""; position: absolute; z-index: 1; top: .15rem; left: 50%; width: 3.4rem; height: 1.1rem; margin-left: -1.7rem; rotate: -4deg;
+  background: rgba(222, 202, 160, .82);
+  clip-path: polygon(0 0, 100% 0, 97% 25%, 100% 50%, 97% 75%, 100% 100%, 0 100%, 3% 75%, 0 50%, 3% 25%);
+}
+.work:nth-child(3n+2)::before { left: 22%; rotate: 5deg; }
+.work:nth-child(3n)::before { left: 78%; rotate: -2deg; }
+.work:hover { rotate: 0deg; scale: 1.025; z-index: 2; box-shadow: 0 2px 4px rgba(18, 20, 23, .16), 0 26px 40px -18px rgba(18, 20, 23, .6); }
+@media (min-width: 760px) {
+  .works__wall { columns: 3; column-gap: 1.5rem; }
+  .work { margin-bottom: 1.6rem; padding: .55rem .55rem 0; }
+  .work figcaption { font-size: .68rem; }
+}
+@media (min-width: 1100px) { .works__wall { columns: 4; } }
+
 /* ---------- 11. Express 24 hrs ---------- */
 .express { padding-block: clamp(4.5rem, 12vw, 9rem); overflow: clip; background: var(--ink); color: #fff; }
 .express__bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 60% at 85% 30%, rgba(216, 38, 28, .55), transparent 70%), radial-gradient(40% 40% at 8% 100%, rgba(255, 212, 0, .2), transparent 70%); }
@@ -744,7 +801,7 @@ details p { max-width: 60ch; padding-bottom: 1.5rem; color: var(--muted); animat
 .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(.9) contrast(1.05); }
 .map__btn {
   position: absolute; right: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: .5rem; padding: .65rem 1rem; border-radius: 999px;
-  background: var(--yellow); color: var(--ink); font-weight: 800; font-size: .88rem; text-decoration: none; box-shadow: 0 12px 24px -10px rgba(0, 0, 0, .6); transition: transform .4s var(--ease);
+  background: var(--yellow); color: var(--ink); font-weight: 700; font-size: .88rem; text-decoration: none; box-shadow: 0 12px 24px -10px rgba(0, 0, 0, .6); transition: transform .4s var(--ease);
 }
 .map__btn:hover { transform: translateY(-2px); }
 .map__btn .ico { width: 1rem; height: 1rem; }
